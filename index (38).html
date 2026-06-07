@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4C1D95" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Descobrindo Minha Voz" />
+  <title>Descobrindo Minha Voz</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===================== TELA: LOGIN ===================== -->
+  <div id="screen-login" class="screen active">
+    <div class="login-wrap">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4 C10 4 6 9 6 14 C6 20 10 24 16 28 C22 24 26 20 26 14 C26 9 22 4 16 4Z" fill="#7C3AED" opacity="0.3"/>
+            <path d="M16 8 C12 8 9 11 9 15 C9 19 12 22 16 24 C20 22 23 19 23 15 C23 11 20 8 16 8Z" fill="#7C3AED" opacity="0.6"/>
+            <circle cx="16" cy="15" r="4" fill="#4C1D95"/>
+          </svg>
+        </div>
+        <h1>Vocalista</h1>
+        <p>Treinamento vocal profissional</p>
+      </div>
+
+      <div class="login-form">
+        <div class="input-group">
+          <label>E-mail</label>
+          <input type="email" id="login-email" placeholder="seu@email.com" />
+        </div>
+        <div class="input-group">
+          <label>Senha</label>
+          <input type="password" id="login-password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary full" onclick="App.login()">Entrar</button>
+        <p class="login-hint">Ainda não tem acesso? <a href="#" onclick="App.showScreen('screen-register')">Cadastre-se</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TELA: CADASTRO ===================== -->
+  <div id="screen-register" class="screen">
+    <div class="login-wrap">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4 C10 4 6 9 6 14 C6 20 10 24 16 28 C22 24 26 20 26 14 C26 9 22 4 16 4Z" fill="#7C3AED" opacity="0.3"/>
+            <path d="M16 8 C12 8 9 11 9 15 C9 19 12 22 16 24 C20 22 23 19 23 15 C23 11 20 8 16 8Z" fill="#7C3AED" opacity="0.6"/>
+            <circle cx="16" cy="15" r="4" fill="#4C1D95"/>
+          </svg>
+        </div>
+        <h1>Criar conta</h1>
+        <p>Comece sua jornada vocal</p>
+      </div>
+
+      <div class="login-form">
+        <div class="input-group">
+          <label>Nome</label>
+          <input type="text" id="reg-name" placeholder="Seu nome" />
+        </div>
+        <div class="input-group">
+          <label>E-mail</label>
+          <input type="email" id="reg-email" placeholder="seu@email.com" />
+        </div>
+        <div class="input-group">
+          <label>Senha</label>
+          <input type="password" id="reg-password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary full" onclick="App.register()">Criar conta</button>
+        <p class="login-hint">Já tem conta? <a href="#" onclick="App.showScreen('screen-login')">Entrar</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TELA: HOME (ALUNO) ===================== -->
+  <div id="screen-home" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <h1 id="home-greeting">Olá!</h1>
+        <p>Continue sua jornada vocal</p>
+      </div>
+
+      <!-- Card aula do dia -->
+      <div class="daily-card" onclick="App.startTodayLesson()">
+        <div class="daily-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4C1D95" stroke-width="2" stroke-linecap="round">
+            <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+          </svg>
+        </div>
+        <div class="daily-info">
+          <h3 id="today-lesson-title">Aula de hoje</h3>
+          <p id="today-lesson-sub">Respiração · 5 min</p>
+        </div>
+        <button class="btn-primary">Iniciar</button>
+      </div>
+
+      <!-- Progresso -->
+      <div class="section">
+        <div class="section-title">Seu progresso</div>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-num" id="stat-exercises">0</div>
+            <div class="stat-lbl">Exercícios</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="stat-pitch">—</div>
+            <div class="stat-lbl">Afinação</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="stat-streak">0</div>
+            <div class="stat-lbl">Sequência</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Módulos -->
+      <div class="section">
+        <div class="section-title">Módulos</div>
+        <div class="modules-grid" id="modules-grid">
+          <!-- preenchido via JS -->
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" id="nav-student">
+      <button class="nav-item active" onclick="App.goTo('home')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('exercises')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Exercícios</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('progress')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Progresso</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== TELA: EXERCÍCIOS ===================== -->
+  <div id="screen-exercises" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <h1>Exercícios</h1>
+        <p>Escolha um módulo para praticar</p>
+      </div>
+      <div id="exercises-list">
+        <!-- preenchido via JS -->
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="App.goTo('home')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Início</span>
+      </button>
+      <button class="nav-item active" onclick="App.goTo('exercises')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Exercícios</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('progress')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Progresso</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== TELA: EXERCISE PLAYER ===================== -->
+  <div id="screen-player" class="screen">
+    <div class="player-header">
+      <button class="back-btn" onclick="App.goBack()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="player-meta">
+        <div class="player-breadcrumb" id="player-breadcrumb">Respiração · 1 de 3</div>
+        <h2 id="player-title">Sustentação do Hiss</h2>
+      </div>
+    </div>
+
+    <!-- Área de pitch -->
+    <div class="pitch-area">
+      <div class="pitch-label">Nota detectada</div>
+      <div class="pitch-note" id="pitch-note">—</div>
+      <div class="waveform" id="waveform">
+        <div class="wave-bar" style="height:8px"></div>
+        <div class="wave-bar" style="height:20px"></div>
+        <div class="wave-bar" style="height:14px"></div>
+        <div class="wave-bar" style="height:28px"></div>
+        <div class="wave-bar" style="height:10px"></div>
+        <div class="wave-bar" style="height:24px"></div>
+        <div class="wave-bar" style="height:16px"></div>
+        <div class="wave-bar" style="height:30px"></div>
+        <div class="wave-bar" style="height:12px"></div>
+        <div class="wave-bar" style="height:22px"></div>
+        <div class="wave-bar" style="height:18px"></div>
+        <div class="wave-bar" style="height:26px"></div>
+      </div>
+      <div class="pitch-bar-wrap">
+        <div class="pitch-bar" id="pitch-bar" style="width:0%"></div>
+      </div>
+      <div class="pitch-status" id="pitch-status">Pressione play para começar</div>
+    </div>
+
+    <!-- Controles -->
+    <div class="player-controls">
+      <button class="ctrl-btn" onclick="App.prevExercise()" aria-label="Anterior">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="ctrl-btn main" id="play-btn" onclick="App.togglePlay()" aria-label="Play">
+        <svg id="play-icon" width="26" height="26" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <svg id="pause-icon" width="26" height="26" viewBox="0 0 24 24" fill="white" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <button class="ctrl-btn" onclick="App.nextExercise()" aria-label="Próximo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Instrução -->
+    <div class="instruction-box">
+      <div class="ib-label">Instrução</div>
+      <div class="ib-text" id="player-instruction">—</div>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-area">
+      <div class="timer-display" id="timer-display">0:00</div>
+      <div class="timer-label">Tempo de prática</div>
+    </div>
+
+    <!-- Botão finalizar -->
+    <button class="btn-primary full" style="margin:0 16px; width:calc(100% - 32px)" onclick="App.finishExercise()">
+      Finalizar e ver diagnóstico
+    </button>
+  </div>
+
+  <!-- ===================== TELA: DIAGNÓSTICO ===================== -->
+  <div id="screen-diagnosis" class="screen">
+    <div class="page-header purple" style="padding-bottom:20px">
+      <button class="back-btn-white" onclick="App.goTo('exercises')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <h1>Resultado</h1>
+      <p id="diag-subtitle">Sustentação do Hiss · Respiração</p>
+    </div>
+
+    <div class="page-content" style="padding-top:0">
+      <!-- Score ring -->
+      <div class="diag-score-card">
+        <div class="score-ring-wrap">
+          <svg width="100" height="100" viewBox="0 0 100 100" style="transform:rotate(-90deg)">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#EDE9FF" stroke-width="10"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#7C3AED" stroke-width="10"
+              stroke-dasharray="251.2" id="score-circle" stroke-dashoffset="251.2" stroke-linecap="round"/>
+          </svg>
+          <div class="score-center" id="score-center">0%</div>
+        </div>
+        <div class="score-label">Pontuação geral</div>
+      </div>
+
+      <!-- Métricas -->
+      <div class="metrics-grid">
+        <div class="metric-item">
+          <div class="metric-label">Afinação</div>
+          <div class="metric-value" id="m-pitch">—</div>
+          <div class="metric-bar"><div class="metric-fill" id="mf-pitch" style="width:0%"></div></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Sustentação</div>
+          <div class="metric-value" id="m-sustain">—</div>
+          <div class="metric-bar"><div class="metric-fill" id="mf-sustain" style="width:0%"></div></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Ar na voz</div>
+          <div class="metric-value" id="m-breath">—</div>
+          <div class="metric-bar"><div class="metric-fill" id="mf-breath" style="width:0%"></div></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">Evolução</div>
+          <div class="metric-value" id="m-evolution">—</div>
+          <div class="metric-bar"><div class="metric-fill" id="mf-evolution" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- Feedback IA -->
+      <div class="feedback-box">
+        <div class="fb-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4C1D95" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Feedback
+        </div>
+        <div class="fb-text" id="feedback-text">—</div>
+      </div>
+
+      <button class="btn-primary full" onclick="App.goTo('exercises')">Voltar aos exercícios</button>
+    </div>
+  </div>
+
+  <!-- ===================== TELA: PROGRESSO ===================== -->
+  <div id="screen-progress" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <h1>Progresso</h1>
+        <p>Acompanhe sua evolução</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Histórico de sessões</div>
+        <div id="history-list">
+          <div class="empty-state">Nenhuma sessão registrada ainda.<br>Complete um exercício para começar!</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="App.goTo('home')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('exercises')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Exercícios</span>
+      </button>
+      <button class="nav-item active" onclick="App.goTo('progress')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Progresso</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== TELA: PERFIL ===================== -->
+  <div id="screen-profile" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <h1>Perfil</h1>
+        <p>Suas informações</p>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-avatar" id="profile-avatar">?</div>
+        <div class="profile-name" id="profile-name">—</div>
+        <div class="profile-email" id="profile-email">—</div>
+        <div class="profile-plan">Plano Mensal</div>
+      </div>
+
+      <div class="section">
+        <button class="menu-item" onclick="App.logout()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sair da conta
+        </button>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="App.goTo('home')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('exercises')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <span>Exercícios</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('progress')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Progresso</span>
+      </button>
+      <button class="nav-item active" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== TELA: PAINEL PROFESSORA ===================== -->
+  <div id="screen-teacher" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <h1 id="teacher-greeting">Meus Alunos</h1>
+        <p id="teacher-subtitle">carregando...</p>
+      </div>
+
+      <div class="teacher-summary-row">
+        <div class="teacher-stat-box">
+          <div class="teacher-stat-num" id="tstat-active">—</div>
+          <div class="teacher-stat-lbl">Praticaram hoje</div>
+        </div>
+        <div class="teacher-stat-box warn" id="tstat-warn-box">
+          <div class="teacher-stat-num" id="tstat-inactive">—</div>
+          <div class="teacher-stat-lbl">Sem prática 3d+</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Alunos</div>
+        <div id="students-list"></div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="App.goTo('teacher')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Alunos</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===================== TELA: HISTÓRICO DO ALUNO (PROFESSORA) ===================== -->
+  <div id="screen-student-detail" class="screen with-nav">
+    <div class="page-content">
+      <div class="page-header purple">
+        <button class="back-btn-white" onclick="App.goTo('teacher')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h1 id="detail-name">Aluno</h1>
+        <p id="detail-email">—</p>
+      </div>
+
+      <div class="student-detail-metrics" id="detail-metrics"></div>
+
+      <div class="section">
+        <div class="section-title">Módulos liberados</div>
+        <div id="detail-modules" class="detail-modules-list"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Histórico de sessões</div>
+        <div id="detail-history"></div>
+      </div>
+
+      <div class="section">
+        <button class="btn-primary full" id="detail-unlock-btn">Liberar próximo módulo</button>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-item" onclick="App.goTo('teacher')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Alunos</span>
+      </button>
+      <button class="nav-item active">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Histórico</span>
+      </button>
+      <button class="nav-item" onclick="App.goTo('profile')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/pitch.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
